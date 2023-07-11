@@ -7,7 +7,7 @@ import math
 """
 Download stock data. 
 """
-def load(stock):
+def load_default(stock):
   stock = yf.download(ticket)
   stock.reset_index(inplace=True)
   return stock
@@ -15,7 +15,7 @@ def load(stock):
 """
 Download stock data over period. 
 """
-def load(stock, start_date, end_date):
+def load_dates(stock, start_date, end_date):
   stock = yf.download(ticket, start=start_date, end=end_date)
   stock.reset_index(inplace=True)
   return stock
@@ -51,7 +51,7 @@ from the average price.
 """
 def plotstd(ticket, start_date, end_date):
 
-  stock = load(ticket, start_date, end_date)
+  stock = load_dates(ticket, start_date, end_date)
 
   prices = stock['Adj Close']
   mean = stock['Adj Close'].mean()
@@ -76,7 +76,7 @@ def plotstd(ticket, start_date, end_date):
   plt.show()
 
 if __name__ == "__main__":
-  stock = load('LYFT')
+  stock = load_default('LYFT')
   print("average price is" + calcmean(stock))
   nearness(stock)
   print("standard deviation is" + calcstd(stock))
