@@ -7,7 +7,7 @@ import math
 """
 Download stock data. 
 """
-def load_default(stock):
+def load_default(ticket):
   stock = yf.download(ticket)
   stock.reset_index(inplace=True)
   return stock
@@ -15,7 +15,7 @@ def load_default(stock):
 """
 Download stock data over period. 
 """
-def load_dates(stock, start_date, end_date):
+def load_dates(ticket, start_date, end_date):
   stock = yf.download(ticket, start=start_date, end=end_date)
   stock.reset_index(inplace=True)
   return stock
