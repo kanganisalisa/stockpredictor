@@ -1,5 +1,5 @@
 # stockpredictor
-predicts stock prices using LSTM recurrent neural network.
+predicts stock features (price, volatility, ...) using LSTM recurrent neural network.
 
 future steps:
 * predict stock volatility (and other measures of promise eventually)
