@@ -59,7 +59,7 @@ def createTrains(stock):
   return dataset, training, scaler, scaled_data, x_train, y_train
 
 """
-Build and return Gated RNN- LSTM network using TensorFlow.
+Build and return Gated RNN-LSTM network using TensorFlow.
 """
 def createModel(x_train, y_train):
   model = keras.models.Sequential()
@@ -70,7 +70,7 @@ def createModel(x_train, y_train):
                               input_shape=(x_train.shape[1], 1)))
   model.add(keras.layers.LSTM(units=64))
   model.add(keras.layers.Dense(32))
-  model.add(keras.layers.Dropout(0.5)) # Dropout layer ignored set of random neurons, prevents overfitting
+  model.add(keras.layers.Dropout(0.5)) # Dropout layer ignores a set of random neurons, preventing overfitting
   model.add(keras.layers.Dense(1))
 
   return model
