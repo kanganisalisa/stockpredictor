@@ -4,47 +4,54 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-SP500 = yf.download('SPY', start = '2020-01-01', end='2020-12-31')
-SP500.reset_index(inplace=True)
+"""
+Download stock data. 
+"""
+def load(stock):
+  stock = yf.download(ticket)
+  stock.reset_index(inplace=True)
+  return stock
 
 """
-Daily Return (day-to-day volatility)
+Download stock data over period. 
 """
-
-SP500['Daily Return'] = SP500['Adj Close'].pct_change(1)
-
-"""
-Standard Deviation (longer-term volatility) 
-provides an intuition of how much a stock price differs from its average value over a specific period.
-"""
-
-mean_price = SP500['Adj Close'].mean()
-mean_price
-
-# determine number of days SP500 closed near average price (avg +/- 5)
-SP500['boolean'] = SP500['Adj Close'].between(math.floor(mean_price)-5, math.ceil(mean_price)+5)
-SP500['boolean'].value_counts()
+def load(stock, start_date, end_date):
+  stock = yf.download(ticket, start=start_date, end=end_date)
+  stock.reset_index(inplace=True)
+  return stock
 
 """
-manual standard deviation calculation:
-```
-SP500['Difference'] = SP500['Adj Close'] - SP500['Adj Close'].mean(axis=0)
-SP500['Difference_Squared'] = SP500['Difference']**2
-sum = SP500['Difference_Squared'].sum() / len(SP500['Difference_Squared'])
-std = np.sqrt(sum)
-```
+Calculate Daily Return (day-to-day volatility) and add to dataframe. 
 """
-
-std = (np.std(SP500['Adj Close'])) # standard deviation using numpy
+calcDailyReturn(stock):
+  stock['Daily Return'] = stock['Adj Close'].pct_change(1)
 
 """
-generates a plot of stock price. lined depict 1 and 2 standard deviations from the 
-average price. 
+returns mean of stock price
+"""
+def calcmean(stock):
+  return stock['Adj Close'].mean()
+
+"""
+determine number of days SP500 closed near average price (avg +/- 5).
+"""
+def nearness(stock):
+  stock['boolean'] = stock['Adj Close'].between(math.floor(mean_price)-5, math.ceil(mean_price)+5)
+  print(stock['boolean'].value_counts())
+
+"""
+Returns standard deviation of stock price using numpy.
+"""
+def calcstd(stock):
+  return np.std(stock['Adj Close'])
+
+"""
+generates a plot of stock price. lines depict one and two standard deviations 
+from the average price. 
 """
 def plotstd(ticket, start_date, end_date):
 
-  stock = yf.download(ticket, start=start_date, end=end_date)
-  stock.reset_index(inplace=True)
+  stock = load(ticket, start_date, end_date)
 
   prices = stock['Adj Close']
   mean = stock['Adj Close'].mean()
@@ -68,5 +75,9 @@ def plotstd(ticket, start_date, end_date):
 
   plt.show()
 
-# call fcn
-plotstd('LYFT', '2020-01-01', '2020-12-31')
+if __name__ == "__main__":
+  stock = load('LYFT')
+  print("average price is" + calcmean(stock))
+  nearness(stock)
+  print("standard deviation is" + calcstd(stock))
+  plotstd('LYFT', '2020-01-01', '2020-12-31')
