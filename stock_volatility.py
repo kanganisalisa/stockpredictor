@@ -24,7 +24,7 @@ def load_dates(ticket, start_date, end_date):
 """
 Calculate Daily Return (day-to-day volatility) and add to dataframe. 
 """
-calcDailyReturn(stock):
+def calcDailyReturn(stock):
   stock['Daily Return'] = stock['Adj Close'].pct_change(1)
 
 """
